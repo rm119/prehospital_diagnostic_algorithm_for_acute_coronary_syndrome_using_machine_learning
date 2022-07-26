@@ -5,6 +5,7 @@ import yaml
 import pickle
 import os
 
+
 def remove_file(filename):
     os.system('rm -rf {}'.format(filename))
 
@@ -12,7 +13,7 @@ def remove_file(filename):
 def save_model(model, savefilename, overwrite=True):
     if overwrite:
         remove_file(savefilename)
-    joblib.dump(model, savefilename, compress = 1)
+    joblib.dump(model, savefilename, compress=1)
     print(savefilename, 'has been saved.')
 
 

@@ -19,10 +19,11 @@ scoring = {'roc_auc': 'roc_auc',
            'accuracy': 'accuracy',
            'recall': 'recall',
            'specificity': make_scorer(recall_score, pos_label=0),
-           'precision':'precision',
+           'precision': 'precision',
            'f1': 'f1',
            'NPV': make_scorer(precision_score, pos_label=0)
            }
+
 
 def idx_of_the_nearest(data, value):
     idx = np.argmin(np.abs(np.array(data) - value))
@@ -34,15 +35,17 @@ def calc_gmeans(y_true, y_pred, thresh=None):
     Return the best threshold to maximize the geometrical mean of imbalanced classification.
     """
     fpr, tpr, thresholds = roc_curve(y_true, y_pred)
-    gmeans = np.sqrt(tpr * (1-fpr))
+    gmeans = np.sqrt(tpr * (1 - fpr))
 
     if thresh:
         ix = idx_of_the_nearest(thresholds, thresh)
-        logging.debug('Given Threshold=%f, G-Mean=%.3f' % (thresholds[ix], gmeans[ix]))
+        logging.debug('Given Threshold=%f, G-Mean=%.3f' %
+                      (thresholds[ix], gmeans[ix]))
     else:
         # locate the index of the largest g-mean
         ix = np.argmax(gmeans)
-        logging.debug('Best Threshold=%f, G-Mean=%.3f' % (thresholds[ix], gmeans[ix]))
+        logging.debug('Best Threshold=%f, G-Mean=%.3f' %
+                      (thresholds[ix], gmeans[ix]))
 
     results = {"threshold": thresholds[ix],
                "gmeans": gmeans[ix],
@@ -56,14 +59,14 @@ def get_scores(model, X, y, threshold=None):
     """
     Calculate the best threshold to maximize the geometrical mean of ROC AUC.
     """
-    y_pred_proba = model.predict_proba(X)[:,1]
+    y_pred_proba = model.predict_proba(X)[:, 1]
 
     if threshold:
         THRESHOLD = threshold
     else:
         THRESHOLD = calc_gmeans(y, y_pred_proba)['threshold']
 
-    y_pred = y_pred_proba>THRESHOLD
+    y_pred = y_pred_proba > THRESHOLD
 
     scores = dict()
 
@@ -86,7 +89,7 @@ def get_scores(model, X, y, threshold=None):
     # NPV
     scores['NPV'] = precision_score(y, y_pred, pos_label=0)
 
-    scores['F1'] = f1_score(y,y_pred)
+    scores['F1'] = f1_score(y, y_pred)
 
     scores['THRESHOLD'] = THRESHOLD
 
@@ -96,14 +99,13 @@ def get_scores(model, X, y, threshold=None):
 def cv_scores(model, X, y, n_splits=10):
     cv = StratifiedKFold(n_splits=n_splits)
     scores = cross_validate(model, X, y, cv=cv,
-                            scoring = scoring,
+                            scoring=scoring,
                             return_train_score=True)
     return scores
 
 
-
 def plots_roc(clf, X_train=None, y_train=None, X_test=None, y_test=None, savefig=None,
-                X_val=None, y_val=None, fontsize = 17, title=None):
+              X_val=None, y_val=None, fontsize=17, title=None):
     # AUC curve
     fig, ax = plt.subplots(figsize=(3, 3))
     if X_train is not None:
@@ -128,8 +130,7 @@ def plots_roc(clf, X_train=None, y_train=None, X_test=None, y_test=None, savefig
     else:
         plt.show()
 
-    
-    
+
 def plots_shapsummary(clf, X_train, savefig=None):
     # SHAP
     explainer = shap.Explainer(clf.named_steps['classifier'])
@@ -148,27 +149,28 @@ def plots_shapsummary(clf, X_train, savefig=None):
         plt.show()
 
 
-
-def score_ci_boot( y_true, y_pred_proba, metrics='roc_auc', n_bootstraps = 1000, alpha=0.05, threshold=0.5):
+def score_ci_boot(y_true, y_pred_proba, metrics='roc_auc', n_bootstraps=1000, alpha=0.05, threshold=0.5):
     """
      Calculate confidence intervals using bootstrap method. Supported metrics are
     Sensitivity, ROC AUC, Specificity, Averaged Precision, F1, Accuracy, Precision, and NPV.
-    
+
     alpha: float, default=0.05
         significance level
     """
-    supported_metrics = ['sensitivity','specificity','f1','roc_auc','accuracy', 'ap', 'precision', 'NPV']
+    supported_metrics = ['sensitivity', 'specificity',
+                         'f1', 'roc_auc', 'accuracy', 'ap', 'precision', 'NPV']
     if metrics not in supported_metrics:
-        logging.error('metrics name has to be:{}'.format(','.join(supported_metrics)))
+        logging.error('metrics name has to be:{}'.format(
+            ','.join(supported_metrics)))
         return None
-    
+
     np.random.seed(123)
-    rng=np.random.RandomState(123)
+    rng = np.random.RandomState(123)
 
     # define threhold
 
-    y_pred = y_pred_proba>threshold
-    
+    y_pred = y_pred_proba > threshold
+
     bootstrapped_scores = []
 
     for i in range(n_bootstraps):
@@ -179,11 +181,12 @@ def score_ci_boot( y_true, y_pred_proba, metrics='roc_auc', n_bootstraps = 1000,
             # We need at least one positive and one negative sample for ROC AUC
             # to be defined: reject the sample
             continue
-        
+
         if metrics == 'roc_auc':
             score = roc_auc_score(y_true[indices], y_pred_proba[indices])
         elif metrics == 'ap':
-            score = average_precision_score(y_true[indices], y_pred_proba[indices])
+            score = average_precision_score(
+                y_true[indices], y_pred_proba[indices])
         elif metrics == 'sensitivity':
             score = recall_score(y_true[indices], y_pred[indices], pos_label=1)
         elif metrics == 'specificity':
@@ -196,7 +199,7 @@ def score_ci_boot( y_true, y_pred_proba, metrics='roc_auc', n_bootstraps = 1000,
             score = precision_score(y_true[indices], y_pred[indices])
         elif metrics == 'NPV':
             score = accuracy_score(y_true[indices], y_pred[indices])
-            
+
         bootstrapped_scores.append(score)
 
     sorted_scores = np.array(bootstrapped_scores)
@@ -206,8 +209,8 @@ def score_ci_boot( y_true, y_pred_proba, metrics='roc_auc', n_bootstraps = 1000,
    # confidence_lower = sorted_scores[int(0.025 * len(sorted_scores))]
    # confidence_upper = sorted_scores[int(0.975 * len(sorted_scores))]
 
-    confidence_lower = sorted_scores[int(alpha/2 * len(sorted_scores))]
-    confidence_upper = sorted_scores[int((1-alpha/2) * len(sorted_scores))]
+    confidence_lower = sorted_scores[int(alpha / 2 * len(sorted_scores))]
+    confidence_upper = sorted_scores[int((1 - alpha / 2) * len(sorted_scores))]
 
     return confidence_lower, confidence_upper
 

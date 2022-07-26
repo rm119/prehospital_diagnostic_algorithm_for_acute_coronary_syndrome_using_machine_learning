@@ -1,10 +1,12 @@
+from get_feature_names_for_sklearn1_0_2 import get_feature_names
 import logging
 import sklearn
 import pandas as pd
 import numpy as np
 import warnings
-#warnings.filterwarnings('ignore')
-import os, sys
+# warnings.filterwarnings('ignore')
+import os
+import sys
 
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.compose import ColumnTransformer
@@ -17,9 +19,10 @@ from sklearn.feature_selection import VarianceThreshold
 from sklearn.utils.validation import check_is_fitted
 
 # --- Import customized modules
-MYDIR = os.getcwd()
-sys.path.append(MYDIR+ '/utils/')
-from get_feature_names_for_sklearn1_0_2 import get_feature_names
+#MYDIR = os.getcwd()
+#sys.path.append(MYDIR+ '/utils/')
+sys.path.append('./utils')
+
 
 if sklearn.__version__ < '1.1':
     NEWSKLERAN = False
@@ -115,15 +118,15 @@ class CategoricalTransformer(TransformerMixin, BaseEstimator):
 
     def set_unknown_to_nan(self, X):
         unknown_values = 1
-        for col in  self.CategoricalFeatures:
+        for col in self.CategoricalFeatures:
             X[col] = X[col].replace(unknown_values, np.nan)
         #no_values = 0
-        #for col in  self.CategoricalFeatures:
+        # for col in  self.CategoricalFeatures:
         #    X[col] = X[col].replace(no_values, np.nan)
         return X
 
     def remove_nan(self, X):
-        for col in  self.CategoricalFeatures:
+        for col in self.CategoricalFeatures:
             if col + '_nan' in X.columns:
                 X.drop(columns=[col + '_nan'], inplace=True)
         return X
