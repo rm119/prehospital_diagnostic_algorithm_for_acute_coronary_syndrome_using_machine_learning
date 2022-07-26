@@ -32,9 +32,12 @@ MacOSX 11.6
 - `utils/importdata.py` : Load original table data, add new columns including target columns.
 - `utils/get_feature_names_for_sklearn1_0_2.py`: A tool to extract feature names after column transformation. To be used in case of Sklearn 1.0.2.
 - `utils/generate_model.py`: Generate classifiers.
-- `utils/tuning.py` : Tunned parameters.
+- `utils/tuning.py` : Functions for hyperparameter tuning 
 - `utils/evaluation.py` : Functions for model evaluation.
 - `utils/utils.py` : Functions for save and load files.
+- `utils/iteration.py` : Functions for cross-validation.
+- `scripts/evaluate_models.py`: a script to evaluate each ML model and generate final models.
+  
 
 
 ## Publication
