@@ -14,6 +14,7 @@ from sklearn.ensemble import VotingClassifier
 
 
 # -- import customized modules
+sys.path.append('./utils')
 import importdata
 import iteration
 import evaluation
@@ -65,9 +66,9 @@ def nestcv_evaluation(target):
                                                     n_splits_outer=n_splits_outer, 
                                                     n_splits_inner=n_splits_inner, 
                                                     Tuning=True,
-                                                    filename=f'../plots/modelevaluation_{target}_{n_features}features_{estimatorname}.png')
+                                                    filename=f'plots/modelevaluation_{target}_{n_features}_features_{estimatorname}.png')
             # -- save models with metadata
-            utils.save_data(models[estimatorname], f'../models/modelevaluation_{target}_{n_features}_{estimatorname}.pkl')
+            utils.save_data(models[estimatorname], f'models/modelevaluation_{target}_{n_features}_features_{estimatorname}.pkl')
 
 
 # -- generate the final model
@@ -105,17 +106,17 @@ def generate_finalmodel(target):
             #             X_val=X_imputed
             #             y_val=y, 
             #             fontsize = 17, title=estimatorname,
-            #             savefig=f'plots/finalmodel_{target}_{n_features}features_train_ROC_CURVE_{estimatorname}.png')
+            #             savefig=f'plots/finalmodel_{target}_{n_features}_features_train_ROC_CURVE_{estimatorname}.png')
 
             evaluation.plots_roc(results['model'], 
                          X_val=X_ext_imputed,
                          y_val=y_ext, 
                          fontsize = 17, title=estimatorname,
-                         savefig=f'plots/finalmodel_{target}_{n_features}features_externalcohort_ROC_CURVE_{estimatorname}.png')
+                         savefig=f'plots/finalmodel_{target}_{n_features}_features_externalcohort_ROC_CURVE_{estimatorname}.png')
 
             results['score_external'] = evaluation.get_scores(results['model'], X_ext_imputed,  
                                                       y_ext, threshold=results['threshold'])
-        utils.save_data(results, f'models/finalmodel_{target}_{n_features}features_{estimatorname}.pkl')
+        utils.save_data(results, f'models/finalmodel_{target}_{n_features}_features_{estimatorname}.pkl')
     
 
 def generate_finalmodel_voting(target):
@@ -147,7 +148,7 @@ def generate_finalmodel_voting(target):
 
         submodels = list()
         for submodelname in estimators:
-            submodel_filename = f'../models/finalmodel_{target}_{n_features}features_{submodelname}.pkl'
+            submodel_filename = f'models/finalmodel_{target}_{n_features}_features_{submodelname}.pkl'
             submodel_info = utils.load_data(submodel_filename)
             submodels.append(('pipeline_' + submodelname, submodel_info['model']))
 
@@ -165,28 +166,28 @@ def generate_finalmodel_voting(target):
                             X_val=X_ext_imputed, 
                             y_val=y_ext, 
                             fontsize = 17, title=estimatorname,
-                            savefig=f'../plots/finalmodel_{target}_{n_features}features_externalcohort_ROC_CURVE_{estimatorname}.png')
+                            savefig=f'plots/finalmodel_{target}_{n_features}_features_externalcohort_ROC_CURVE_{estimatorname}.png')
 
         results['score_external'] = evaluation.get_scores(results['model'], X_ext_imputed,  
                                                         y_ext, threshold=results['threshold'])
         # -- save models with metadata
-        utils.save_data(results, f'../models/finalmodel_{target}_{n_features}features_{estimatorname}.pkl')
+        utils.save_data(results, f'models/finalmodel_{target}_{n_features}_features_{estimatorname}.pkl')
 
 
         logging.debug('cross-validation')
         # cross-validation
         cv_score = iteration.outercv(results['model'], X, y, drop_cols=drop_cols, 
                                 n_splits_outer=n_splits_outer, n_repeats=n_repeats,
-                                filename=f'../plots/modelevaluation_{target}_{n_features}features_{estimatorname}.png')
+                                filename=f'plots/modelevaluation_{target}_{n_features}_features_{estimatorname}.png')
             
-        utils.save_data(cv_score, f'../models/modelevaluation_{target}_{n_features}_{estimatorname}.pkl')
+        utils.save_data(cv_score, f'models/modelevaluation_{target}_{n_features}_features_{estimatorname}.pkl')
 
 
 def print_ncv_scores(target, n_features):
     # -- display nested CV scores  
     models = dict()
     for estimatorname in estimators + ['VotingClassifierAll']:
-        models[estimatorname] = utils.load_data(f'../models/modelevaluation_{target}_{n_features}_{estimatorname}.pkl')
+        models[estimatorname] = utils.load_data(f'models/modelevaluation_{target}_{n_features}_features_{estimatorname}.pkl')
 
         for label in ['train', 'test']:
             df_score_mean = pd.DataFrame()
@@ -205,10 +206,12 @@ def print_ncv_scores(target, n_features):
 def main():
     logging.info('Evaluation of models with Nested CV.')
     for target in ['ACS', 'AMI', 'STEMI']:
-        nestcv_evaluation(target)
-        generate_finalmodel(target)
-        # voting model
-        generate_finalmodel_voting(target)
+        # -- evaluation models (Nested CV)
+        #nestcv_evaluation(target)
+        # -- generate final models
+        #generate_finalmodel(target)
+        # -- generate final VotingClassifier models
+        #generate_finalmodel_voting(target)
         print_ncv_scores(target, 17)
         print_ncv_scores(target, 43)
 
