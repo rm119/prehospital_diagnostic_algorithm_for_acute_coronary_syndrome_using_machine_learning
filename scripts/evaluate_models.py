@@ -12,7 +12,6 @@ import numpy as np
 # -- import ML modules
 from sklearn.ensemble import VotingClassifier
 
-
 # -- import customized modules
 sys.path.append('./utils')
 import importdata
@@ -189,7 +188,7 @@ def print_ncv_scores(target, n_features):
     for estimatorname in estimators + ['VotingClassifierAll']:
         models[estimatorname] = utils.load_data(f'models/modelevaluation_{target}_{n_features}_features_{estimatorname}.pkl')
 
-        for label in ['train', 'test']:
+        for label in ['train', 'val']:
             df_score_mean = pd.DataFrame()
             df_score_std = pd.DataFrame()
             for estimatorname in models.keys():
@@ -207,11 +206,11 @@ def main():
     logging.info('Evaluation of models with Nested CV.')
     for target in ['ACS', 'AMI', 'STEMI']:
         # -- evaluation models (Nested CV)
-        #nestcv_evaluation(target)
+        nestcv_evaluation(target)
         # -- generate final models
-        #generate_finalmodel(target)
+        generate_finalmodel(target)
         # -- generate final VotingClassifier models
-        #generate_finalmodel_voting(target)
+        generate_finalmodel_voting(target)
         print_ncv_scores(target, 17)
         print_ncv_scores(target, 43)
 
