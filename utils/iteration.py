@@ -1,4 +1,3 @@
-import time
 import os
 import random
 import logging
@@ -49,7 +48,7 @@ def nestcv(estimatorname, X, y,  target, n_repeats=10, n_splits_outer=10, n_spli
             y_train_inner, y_val_inner = y_train_outer.iloc[
                 train_index_inner], y_train_outer.iloc[test_index_inner]
             # -- imputation
-            logging.debug(': imputation for inner fold{}'.format(innder_fold))
+            logging.debug('imputation for inner fold{}'.format(innder_fold))
             X_train_inner_imputated = imputator.fit_transform(X_train_inner)
             X_val_inner_imputated = imputator.transform(X_val_inner)
             if drop_cols:
@@ -58,7 +57,7 @@ def nestcv(estimatorname, X, y,  target, n_repeats=10, n_splits_outer=10, n_spli
             # -- tuning 
             if Tuning:
                 n_trials = 100
-                logging.debug(time.time(), ': tuning for inner fold{}'.format(innder_fold))
+                logging.debug('tuning for inner fold{}'.format(innder_fold))
                 study = tuning.tuning(estimatorname, X_train_inner_imputated, y_train_inner,
                                       n_trials=n_trials)
                 #print('best score = {:.3f}'.format(study.best_value))
@@ -202,7 +201,7 @@ def outercv(model, X, y, n_splits_outer, n_repeats, drop_cols=None, filename=Non
         outer_scores[f'outer_fold_{outer_fold}']['mean_fpr'] = mean_fpr
         outer_scores[f'outer_fold_{outer_fold}']['aucs'] = aucs
 
-    print(time.time(), ': plotting ROC CURVE')
+    logging.debug('plotting ROC CURVE')
     for label, color in zip(['train', 'test'], ['C0', 'C1']):
         mean_tpr = np.mean(tprs[label], axis=0)
         mean_tpr[-1] = 1.0
@@ -241,13 +240,13 @@ def parameter_tuning(estimatorname, X, y, target=None, drop_cols=None, Tuning=Tr
     imputator = imputation.ImputationTransformer()
     results = dict()
     # -- imputation
-    print(time.time(), ': imputation ')
+    logging.debug(': imputation ')
     X_imputed = imputator.fit_transform(X)
     if drop_cols:
         X_imputed = X_imputed.drop(columns=drop_cols)
     # -- tuning 
     if Tuning:
-        print(time.time(), ': tuning')
+        logging.debug(': tuning')
         study = tuning.tuning(estimatorname, X_imputed, y, n_trials=100)
         if estimatorname == 'LogisticRegression': 
             params = study[np.argmax([s.best_value for s in study])].best_params
