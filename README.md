@@ -41,14 +41,10 @@ MacOSX 11.6
 
 
 ## Publication
-- [1] Takeda M, Oami T, Hayashi Y, Shimada T, Hattori N, Tateishi K, Miura RE, Yamao Y, Abe R, Kobayashi Y, Nakada T. Prehospital diagnostic algorithm for acute coronary syndrome using machine learning: a prospective observational study. Sci Rep 12, 14593 (2022).　
-
-[DOI](https://doi.org/10.1038/s41598-022-18650-6)
-
-[publisher's site](https://www.nature.com/articles/s41598-022-18650-6)
+- [1] Takeda M, Oami T, Hayashi Y, Shimada T, Hattori N, Tateishi K, Miura RE, Yamao Y, Abe R, Kobayashi Y, Nakada T. Prehospital diagnostic algorithm for acute coronary syndrome using machine learning: a prospective observational study. Sci Rep 12, 14593 (2022).　[DOI](https://doi.org/10.1038/s41598-022-18650-6)  [Read article at the publisher's site](https://www.nature.com/articles/s41598-022-18650-6)
 
 ### Preprint
-- [2] Takeda M, Oami T, Hayashi Y, Shimada T, Hattori N, Tateishi K, Miura RE, Yamao Y, Abe R, Kobayashi Y, Nakada T. Prehospital Diagnostic Algorithm for Acute Coronary Syndrome Using Machine Learning: A Prospective Observational Study. Research Square. 2022. [Read article at the publisher's site](https://www.researchsquare.com/article/rs-1360222/v1)
+- [2] Takeda M, Oami T, Hayashi Y, Shimada T, Hattori N, Tateishi K, Miura RE, Yamao Y, Abe R, Kobayashi Y, Nakada T. Prehospital Diagnostic Algorithm for Acute Coronary Syndrome Using Machine Learning: A Prospective Observational Study. Research Square. 2022. [Preprint](https://www.researchsquare.com/article/rs-1360222/v1)
 
 ## Citation
 [Download citation](https://citation-needed.springer.com/v2/references/10.1038/s41598-022-18650-6?format=refman&flavour=citation)
