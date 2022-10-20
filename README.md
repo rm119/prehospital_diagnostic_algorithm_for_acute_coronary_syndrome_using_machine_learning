@@ -32,21 +32,21 @@ MacOSX 11.6
 - `utils/importdata.py` : Load original table data, add new columns including target columns.
 - `utils/get_feature_names_for_sklearn1_0_2.py`: A tool to extract feature names after column transformation. To be used in case of Sklearn 1.0.2.
 - `utils/generate_model.py`: Generate classifiers.
-- `utils/tuning.py` : Functions for hyperparameter tuning 
+- `utils/tuning.py` : Functions for hyperparameter tuning
 - `utils/evaluation.py` : Functions for model evaluation.
 - `utils/utils.py` : Functions for save and load files.
 - `utils/iteration.py` : Functions for cross-validation.
 - `scripts/evaluate_models.py`: a script to evaluate each ML model and generate final models.
-  
+
 
 
 ## Publication
-- [1] Takeda M, Oami T, Hayashi Y, Shimada T, Hattori N, Tateishi K, Miura RE, Yamao Y, Abe R, Kobayashi Y, Nakada T. Prehospital diagnostic algorithm for acute coronary syndrome using machine learning: a prospective observational study. Submitted to Scientific Reports.　
+- [1] Takeda M, Oami T, Hayashi Y, Shimada T, Hattori N, Tateishi K, Miura RE, Yamao Y, Abe R, Kobayashi Y, Nakada T. Prehospital diagnostic algorithm for acute coronary syndrome using machine learning: a prospective observational study. Sci Rep 12, 14593 (2022).　[DOI](https://doi.org/10.1038/s41598-022-18650-6)[publisher's site](https://www.nature.com/articles/s41598-022-18650-6)
 
 ### Preprint
 - [2] Takeda M, Oami T, Hayashi Y, Shimada T, Hattori N, Tateishi K, Miura RE, Yamao Y, Abe R, Kobayashi Y, Nakada T. Prehospital Diagnostic Algorithm for Acute Coronary Syndrome Using Machine Learning: A Prospective Observational Study. Research Square. 2022. [Read article at the publisher's site](https://www.researchsquare.com/article/rs-1360222/v1)
 
 ## Citation
-TBD
+[Download citation](https://citation-needed.springer.com/v2/references/10.1038/s41598-022-18650-6?format=refman&flavour=citation)
 
-BibTex format:
+PMID: 36028534 
