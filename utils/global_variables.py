@@ -145,7 +145,7 @@ DESCRIPTIONS = {'st_1_2': 'ST change',
                 'pulse': 'Heart rate',
                 'body_temperature': 'Body Temperature',
                 'spo2': 'Blood oxygen saturation',
-                'dyspnea': 'Dyspnoea',  # 'Dyspnea', for American English
+                'dyspnea': 'Dyspnea', #'Dyspnea', for American English #'Dyspnoea', for British English
                 'hand_sensation': 'Cold hands',
                 'hand_moistening': 'Hand moistening',
                 'interview1': 'Palpitations',
@@ -171,7 +171,7 @@ DESCRIPTIONS = {'st_1_2': 'ST change',
                 'blood_pressure_min': 'Diastolic blood pressure',
                 'medical_history1': 'Diabetes mellitus',
                 'medical_history2': 'Hypertension',
-                'medical_history3': 'Dyslipidaemia',  # 'Dyslipidemia' for American English
+                'medical_history3': 'Dyslipidemia',  #'Dyslipidemia' for American English #'Dyslipidaemia' for British English
                 'medical_history4': 'Stable angina',
                 'medical_history5': 'Old myocardial infarction',
                 'medical_history6': 'prior PCI',
