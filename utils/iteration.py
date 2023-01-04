@@ -72,7 +72,7 @@ def nestcv(estimatorname, X, y,  target, n_repeats=10, n_splits_outer=10, n_spli
                         [s.best_value for s in study])].best_params
                 else:
                     params = study.best_params
-                    if estimatorname == 'XGBoost':
+                    if estimatorname == 'XGBClassifier':
                         params["scale_pos_weight"] = (
                             y_train_inner == 0).sum() / (y_train_inner == 1).sum()
                 if 'onehot' in params.keys():
