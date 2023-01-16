@@ -277,7 +277,7 @@ def parameter_tuning(estimatorname, X, y, target=None, drop_cols=None, Tuning=Tr
                 [s.best_value for s in study])].best_params
         else:
             params = study.best_params
-            if estimatorname == 'XGBoost':
+            if estimatorname == 'XGBClassifier':
                 params["scale_pos_weight"] = (y == 0).sum() / (y == 1).sum()
             if estimatorname in ['RandomForestClassifier', 'LGBMClassifier', 'XGBClassifier']:
                 params_onehot = False
